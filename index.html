@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Опитувальники</title>
+<style>
+  :root{
+    --bg:#faf8f5; --card:#ffffff; --ink:#2b2622; --muted:#7a716a; --line:#e7e1da;
+    --accent:#7a5a46; --accent-soft:#f3ece6; --ok:#4f7a5a; --warn:#a0522d;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 120px}
+  h1{font-size:1.6rem;margin:8px 0 4px}
+  h2{font-size:1.25rem;margin:0 0 6px}
+  h3{font-size:1rem;margin:18px 0 6px}
+  p{margin:6px 0 10px}
+  .muted{color:var(--muted);font-size:.93rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+  .intro ul{margin:6px 0 10px 18px;padding:0}
+  .timing{display:grid;grid-template-columns:1fr auto;gap:4px 16px;margin:10px 0}
+  .timing div:nth-child(even){color:var(--muted);text-align:right}
+  label.field{display:block;margin:10px 0 4px;font-weight:600}
+  input[type=text],input[type=date]{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
+  .lead{background:var(--accent-soft);border-radius:10px;padding:12px 14px;margin:10px 0 16px}
+  .item{padding:14px 0;border-top:1px solid var(--line)}
+  .item:first-of-type{border-top:none}
+  .q{margin-bottom:8px}
+  .q b{color:var(--accent);margin-right:6px}
+  .scale{display:flex;flex-wrap:wrap;gap:6px}
+  .scale label{flex:1 1 0;min-width:92px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:.82rem;text-align:center;color:var(--muted);user-select:none}
+  .scale label .n{font-size:1rem;font-weight:700;color:var(--ink)}
+  .scale input{position:absolute;opacity:0;pointer-events:none}
+  .scale label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
+  .scale label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+  .opts{display:flex;flex-direction:column;gap:6px}
+  .opt{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+  .opt input{margin-top:4px;accent-color:var(--accent)}
+  .opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+  .grid21{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .grid21 .cell{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+  .grid21 .cell span{width:28px;font-weight:700;color:var(--accent)}
+  .grid21 select{flex:1;padding:6px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+  .pending{border:1px dashed var(--line);border-radius:10px;padding:14px;color:var(--muted)}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:#fffffff2;border-top:1px solid var(--line);backdrop-filter:blur(6px)}
+  .bar .in{max-width:760px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+  .prog{flex:1;height:8px;background:var(--line);border-radius:6px;overflow:hidden}
+  .prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+  .bar .pc{font-size:.85rem;color:var(--muted);min-width:110px;text-align:right}
+  button{font:inherit;border:none;border-radius:10px;padding:11px 16px;cursor:pointer}
+  .primary{background:var(--accent);color:#fff}
+  .ghost{background:var(--accent-soft);color:var(--ink)}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  textarea{width:100%;min-height:220px;border:1px solid var(--line);border-radius:10px;padding:10px;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;background:#fbfaf8}
+  .missing{color:var(--warn);font-size:.92rem;margin-top:8px}
+  .saved{color:var(--ok);font-size:.9rem}
+  .support{border-left:3px solid var(--accent);padding-left:12px}
+  .scale label span:last-child{overflow-wrap:anywhere;hyphens:auto;line-height:1.2}
+  @media (max-width:520px){.scale{gap:4px}.scale label{min-width:0;padding:7px 2px;font-size:.62rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Опитувальники</h1>
+    <p class="muted">Підготовлено вашою терапевткою для нашої спільної роботи</p>
+  </header>
+
+  <section class="card intro">
+    <h2>Перед початком</h2>
+    <p>Ці опитувальники допоможуть нам краще зрозуміти, як ви зараз почуваєтеся, як ставитеся до себе у складні моменти та як вибудовуєте стосунки. Це не іспит: правильних і неправильних відповідей тут немає, і оцінювати вас ніхто не буде.</p>
+    <ul>
+      <li>Відповідайте так, як є насправді, а не так, як «мало б бути».</li>
+      <li>Не обдумуйте відповідь надто довго: зазвичай найточніша та, що спадає на думку першою.</li>
+      <li>Якщо твердження не зовсім про вас, оберіть варіант, який найближчий.</li>
+      <li>Знайдіть 10–15 хвилин у спокійному місці. Можна робити перерви: відповіді зберігаються в цьому браузері, доки ви не закриєте його дані.</li>
+    </ul>
+    <div class="timing">
+      <div>1. Шкала депресії Бека (BDI)</div><div>≈ 5–10 хв</div>
+      <div>2. Шкала форм самокритики та самозаспокоєння (FSCRS)</div><div>≈ 5 хв</div>
+      <div><b>Разом</b></div><div><b>≈ 10–15 хв</b></div>
+    </div>
+    <p class="muted">Ваші відповіді автоматично збираються у віконці внизу сторінки. Коли закінчите, скопіюйте текст із нього й надішліть мені в чат. Відповіді нікуди не надсилаються автоматично, вони лишаються тільки на вашому пристрої, доки ви самі їх не відправите.</p>
+  </section>
+
+  <section class="card" id="bdi">
+    <h2>1. Шкала депресії Бека</h2>
+    <p class="muted">Beck Depression Inventory (BDI) · 21 група тверджень · ≈ 5–10 хв</p>
+    <div class="lead">Кожен пункт — це група з чотирьох тверджень. Спершу прочитайте <b>усі</b> твердження в групі, а потім оберіть <b>одне</b>, яке найточніше описує ваше самопочуття, думки й настрій <b>протягом останнього тижня, включно з сьогодні</b>. Якщо однаково підходять кілька, оберіть те, що нижче в списку.</div>
+    <div id="bdi-items"></div>
+  </section>
+
+  <section class="card" id="fscrs">
+    <h2>2. Шкала форм самокритики та самозаспокоєння</h2>
+    <p class="muted">Forms of Self-Criticising/Attacking &amp; Self-Reassuring Scale (FSCRS; P. Gilbert) · 22 твердження · ≈ 5 хв</p>
+    <div class="lead">Коли щось у житті йде не так, як ми сподівалися, і здається, що можна було зробити краще, у нас іноді з'являються самокритичні думки й почуття. Нижче — твердження, якими люди описують себе в такі моменти. Прочитайте кожне і позначте, наскільки воно схоже на вас.<br><br><b>Коли в моєму житті щось іде не так…</b></div>
+    <div id="fscrs-items"></div>
+  </section>
+
+
+
+  <section class="card" id="finish">
+    <h2>Ваші відповіді</h2>
+    <p>Дякую, що знайшли на це час і сили.</p>
+    <div class="lead"><b>Як надіслати відповіді:</b><br>
+      1. Перевірте лічильник унизу екрана: якщо якісь пункти пропущені, поверніться й доповніть їх.<br>
+      2. Натисніть кнопку «Скопіювати» під віконцем (або виділіть увесь текст у віконці й скопіюйте вручну).<br>
+      3. Вставте скопійоване в наш чат і надішліть мені.</div>
+    <textarea id="out" readonly aria-label="Ваші відповіді"></textarea>
+    <div class="actions">
+      <button class="primary" id="copy">Скопіювати</button>
+      <span class="saved" id="copied"></span>
+    </div>
+    <div class="missing" id="missing"></div>
+    <p class="support" style="margin-top:16px">Якщо під час заповнення вам стало важко або з'явилися думки зашкодити собі, напишіть мені одразу, не чекаючи сесії. Якщо зв'язатися зі мною немає змоги, а стан гострий, телефонуйте 112.</p>
+  </section>
+
+</div>
+
+<div class="bar"><div class="in">
+  <div class="prog"><i id="progbar"></i></div>
+  <div class="pc" id="progtxt">0 з 0</div>
+</div></div>
+
+<script>
+/* ---------- ДАНІ ОПИТУВАЛЬНИКІВ ---------- */
+
+const FSCRS_SCALE = [
+  [0,"зовсім не схоже на мене"],[1,"трохи схоже"],[2,"помірно схоже"],[3,"досить схоже"],[4,"дуже схоже на мене"]
+];
+const FSCRS = [
+  "Я легко розчаровуюся в собі.",
+  "Є частина мене, яка мене принижує.",
+  "Я можу нагадати собі про свої сильні сторони.",
+  "Мені важко стримувати злість і роздратування на саму себе.",
+  "Мені легко пробачити собі.",
+  "Є частина мене, яка відчуває, що я недостатньо хороша.",
+  "Власні самокритичні думки пригнічують мене.",
+  "Мені все одно подобається бути собою.",
+  "Я так злюся на себе, що хочу зробити собі боляче.",
+  "Я відчуваю огиду до себе.",
+  "Я все одно можу відчувати, що мене можна любити і приймати.",
+  "Я перестаю дбати про себе.",
+  "Мені легко подобатися самій собі.",
+  "Я пам'ятаю свої невдачі й знову і знову до них повертаюся.",
+  "Я обзиваю себе.",
+  "Я лагідна до себе і підтримую себе.",
+  "Я не можу прийняти невдачу, не відчуваючи себе неспроможною.",
+  "Я вважаю, що заслуговую на свою самокритику.",
+  "Я вмію піклуватися про себе.",
+  "Є частина мене, яка хоче позбутися тих моїх рис, що мені не подобаються.",
+  "Я підбадьорюю себе щодо майбутнього.",
+  "Мені не подобається бути собою."
+];
+
+
+const TOSCA_SCALE = [
+  [1,"зовсім малоймовірно"],[2,"малоймовірно"],[3,"можливо"],[4,"ймовірно"],[5,"дуже ймовірно"]
+];
+
+const RPT_SCALE = [
+  [1,"зовсім не характерно для мене"],[2,"радше не характерно"],[3,"важко сказати"],[4,"радше характерно"],[5,"дуже характерно для мене"]
+];
+const BDI = [
+ ["Мені не сумно.","Мені сумно, я почуваюся пригніченою.","Мені весь час сумно, я пригнічена і не можу відволіктися від цього стану.","Я відчуваю нестерпний сум і тугу."],
+ ["Я спокійно думаю про майбутнє.","Думки про майбутнє викликають у мене страх і тривогу.","Мені нема чого чекати від майбутнього і нема на що сподіватися.","Я відчуваю, що в моєму майбутньому немає нічого доброго і я нічого не можу змінити."],
+ ["Я не відчуваю себе невдахою.","Я відчуваю, що в мене більше невдач, ніж в інших людей.","Моє життя — це суцільна низка невдач і помилок.","Я цілковита невдаха в усьому (навчанні, роботі, сімейному житті тощо)."],
+ ["Я отримую задоволення від улюблених занять і речей.","Улюблені заняття й речі не приносять мені такого задоволення, як раніше.","Я ні від чого не отримую задоволення.","Будь-яке заняття викликає в мене нудьгу і тугу."],
+ ["Я не відчуваю провини.","Я досить часто відчуваю провину.","Я дуже часто почуваюся поганою людиною, і мене мучить відчуття провини.","Мене мучить постійне відчуття провини."],
+ ["Я не вважаю, що заслуговую на покарання.","Я допускаю, що заслуговую на покарання.","Я вважаю, що маю бути покарана.","Я відчуваю, що доля мене карає."],
+ ["Загалом я задоволена тим, якою я є.","Я незадоволена собою.","Я собі огидна.","Я ненавиджу себе."],
+ ["Я не думаю, що я гірша за інших людей.","Я критикую себе за слабкості й помилки.","Я постійно дорікаю собі за різні помилки.","Я дорікаю собі за все погане, що відбувається навколо."],
+ ["У мене не виникає думок про самогубство.","У мене бувають думки про самогубство, але я знаю, що не зроблю цього.","Я хочу померти і планую самогубство.","Якби була нагода, я б скоїла самогубство."],
+ ["Я плачу не частіше, ніж звичайно.","Я плачу частіше, ніж звичайно.","Я весь час плачу.","Раніше я часто плакала, а тепер не можу заплакати, навіть коли хочеться."],
+ ["Я дратуюся не частіше, ніж звичайно.","Я дратуюся легше, ніж звичайно.","Я постійно відчуваю роздратування і внутрішнє незадоволення.","Те, що раніше мене дратувало, тепер мені байдуже."],
+ ["Я не втратила цікавості до людей.","Люди цікавлять мене менше, ніж раніше.","Я майже повністю втратила інтерес до людей.","Люди мені глибоко байдужі."],
+ ["Мені не важче, ніж звичайно, ухвалювати рішення.","Тепер я частіше, ніж раніше, зволікаю з рішеннями.","Мені дуже важко ухвалити будь-яке рішення.","Я не можу ухвалити жодного рішення."],
+ ["Я не вважаю, що виглядаю гірше, ніж звичайно.","Мене турбує, що я виглядаю дещо гірше, ніж звичайно, і старшою за свій вік.","Я відчуваю, що з кожним днем виглядаю дедалі гірше.","Я переконана, що виглядаю жахливо."],
+ ["Мені працюється так само, як і раніше.","Тепер мені часто доводиться змушувати себе братися до роботи.","Я з великими труднощами змушую себе взятися до роботи.","Я не можу працювати."],
+ ["Я сплю не менше і не гірше, ніж раніше.","Я сплю гірше, ніж раніше.","Я прокидаюся на 1–2 години раніше, ніж звичайно, і мені важко знову заснути.","Я прокидаюся на кілька годин раніше, ніж звичайно, і вже не можу заснути."],
+ ["Я втомлююся не більше, ніж звичайно.","Я втомлююся значно легше, ніж раніше.","Я втомлююся від будь-якого заняття.","Я почуваюся настільки втомленою, що не можу нічим займатися."],
+ ["У мене нормальний апетит.","У мене погіршився апетит.","У мене майже немає апетиту.","У мене зовсім немає апетиту."],
+ ["Моя вага не змінюється.","Останнім часом я схудла більш ніж на 3 кг.","Останнім часом я схудла більш ніж на 5 кг.","Останнім часом я схудла більш ніж на 7 кг."],
+ ["Моє фізичне здоров'я добре.","Мене турбують фізичні симптоми (наприклад, біль у животі, закрепи тощо).","Я дуже стурбована своїми фізичними симптомами.","Я настільки стурбована станом свого здоров'я, що майже не можу думати ні про що інше."],
+ ["Мій інтерес до статевого життя останнім часом не зменшився.","Статеве життя цікавить мене менше, ніж звичайно.","Мій інтерес до статевого життя значно зменшився.","Я повністю втратила інтерес до статевого життя."]
+];
+
+const TOSCA = [];
+
+const RPT = [];
+
+const BDI_N = BDI.length;
+
+/* ---------- ЗБЕРЕЖЕННЯ ---------- */
+const KEY = "opd-questionnaires-O-v4";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e){ state = {}; }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} updateProgress(); renderOut(); }
+
+/* ---------- ПОБУДОВА ---------- */
+function scaleRow(name, scale){
+  return '<div class="scale" role="radiogroup">' + scale.map(([v,t]) =>
+    `<label><input type="radio" name="${name}" value="${v}" ${state[name]==String(v)?"checked":""}><span class="n">${v}</span><span>${t}</span></label>`
+  ).join("") + '</div>';
+}
+
+function buildLikert(containerId, prefix, items, scale){
+  const el = document.getElementById(containerId);
+  if (!items.length){
+    el.innerHTML = '<div class="pending">Цей розділ буде додано незабаром.</div>';
+    return;
+  }
+  el.innerHTML = items.map((t,i) =>
+    `<div class="item"><div class="q"><b>${i+1}.</b>${t}</div>${scaleRow(prefix+(i+1), scale)}</div>`
+  ).join("");
+}
+
+function buildTosca(){
+  const el = document.getElementById("tosca-items");
+  if (!TOSCA.length){ el.innerHTML = '<div class="pending">Цей розділ буде додано незабаром.</div>'; return; }
+  const letters = "abcdefg";
+  el.innerHTML = TOSCA.map((sc,i) =>
+    `<div class="item"><h3>Ситуація ${i+1}</h3><p>${sc.s}</p>` +
+    sc.r.map((r,j) => `<div class="q" style="margin-top:10px"><b>${"абвгд"[j]})</b>${r}</div>${scaleRow("tosca"+(i+1)+letters[j], TOSCA_SCALE)}`).join("") +
+    `</div>`
+  ).join("");
+}
+
+function buildBDI(){
+  const el = document.getElementById("bdi-items");
+  el.innerHTML = BDI.map((opts,i) => {
+    const n = i+1, name = "bdi"+n;
+    let h = `<div class="item"><div class="q"><b>${n}.</b></div><div class="opts">` +
+      opts.map((t,v) => `<label class="opt"><input type="radio" name="${name}" value="${v}" ${state[name]==String(v)?"checked":""}><span>${t}</span></label>`).join("") + `</div>`;
+    if (n===19){
+      h += `<div class="q" style="margin-top:10px">Я свідомо намагаюся схуднути, обмежуючи себе в їжі:</div>${scaleRow("bdi19diet", [["так","так"],["ні","ні"]])}`;
+    }
+    return h + `</div>`;
+  }).join("");
+}
+
+buildLikert("fscrs-items","fscrs",FSCRS,FSCRS_SCALE);
+buildBDI();
+
+
+document.addEventListener("change", e => {
+  const t = e.target;
+  if ((t.type==="radio" || t.tagName==="SELECT") && t.name){ state[t.name] = t.value; save(); }
+});
+
+/* ---------- ПРОГРЕС ---------- */
+function allKeys(){
+  const k = [];
+  FSCRS.forEach((_,i)=>k.push("fscrs"+(i+1)));
+  for (let i=1;i<=BDI_N;i++) k.push("bdi"+i);
+  k.push("bdi19diet");
+  TOSCA.forEach((sc,i)=>sc.r.forEach((_,j)=>k.push("tosca"+(i+1)+"abcdefg"[j])));
+  return k;
+}
+function updateProgress(){
+  const keys = allKeys();
+  const done = keys.filter(k => state[k]!==undefined && state[k]!=="").length;
+  document.getElementById("progbar").style.width = keys.length ? (100*done/keys.length)+"%" : "0";
+  document.getElementById("progtxt").textContent = `${done} з ${keys.length}`;
+}
+updateProgress();
+
+/* ---------- ВИВІД ---------- */
+function v(k){ return (state[k]===undefined || state[k]==="") ? "–" : state[k]; }
+function line(prefix, n){ const a=[]; for(let i=1;i<=n;i++) a.push(`${i}:${v(prefix+i)}`); return a.join(" "); }
+
+function renderOut(){
+  const missing = allKeys().filter(k => state[k]===undefined || state[k]==="");
+  document.getElementById("missing").textContent = missing.length
+    ? `Без відповіді лишилося пунктів: ${missing.length}. Можна повернутися й доповнити або надіслати як є.`
+    : "";
+  let t = "ОПИТУВАЛЬНИКИ — ВІДПОВІДІ\n";
+  t += "\n";
+    t += `Шкала депресії Бека, BDI (0–3)\n${line("bdi", BDI_N)}\nПункт 19, свідомо худне: ${v("bdi19diet")}\n\n`;
+  t += `FSCRS (0–4)\n${line("fscrs", FSCRS.length)}\n\n`;
+  if (TOSCA.length){
+    t += "TOSCA-3 (1–5)\n";
+    TOSCA.forEach((sc,i)=>{ t += `${i+1}: ` + sc.r.map((_,j)=>{const L="abcdefg"[j];return L+v("tosca"+(i+1)+L);}).join(" ") + "\n"; });
+    t += "\n";
+  }
+  if (RPT.length) t += `RPT (1–5)\n${line("rpt", RPT.length)}\n`;
+  const out = document.getElementById("out");
+  out.value = t;
+}
+renderOut();
+
+document.getElementById("copy").addEventListener("click", async () => {
+  const out = document.getElementById("out");
+  try { await navigator.clipboard.writeText(out.value); }
+  catch(e){ out.select(); try{ document.execCommand("copy"); }catch(_){} }
+  document.getElementById("copied").textContent = "Скопійовано";
+});
+
+</script>
+</body>
+</html>
